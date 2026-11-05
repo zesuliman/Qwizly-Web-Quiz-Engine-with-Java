@@ -5,7 +5,7 @@ Users can create quiz templates, populate them with questions and answers, publi
 
 ## ✨ Main Features
 * Create custom, web-based quizzes.
-* Edit existing quizzes to add or modify questions.
+* Edit existing quiz drafts to add, modify, or delete questions.
 * Specify the correct answer and logic for each question.
 * Securely share quizzes with other users and allow them to submit answers.
 * Calculate the overall score and basic statistcs for each quiz such as calculating the average, highest, lowest score and number of attempts.
