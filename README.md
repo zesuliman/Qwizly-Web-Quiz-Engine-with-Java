@@ -8,7 +8,7 @@ Users can create quiz templates, populate them with questions and answers, publi
 * Edit existing quizzes to add or modify questions.
 * Specify the correct answer and logic for each question.
 * Securely share quizzes with other users and allow them to submit answers.
-* Calculate the overall score and statistcs for a specific quiz.
+* Calculate the overall score and basic statistcs for each quiz such as calculating the average, highest, lowest score and number of attempts.
 
 ## ⚙️ Core Engineering Challenges
 * **Dynamic Question Rendering:** Automatically loads questions based on the configuration or display preferences set by the creator.
