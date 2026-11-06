@@ -5,17 +5,17 @@ Users can create quiz templates, populate them with questions and answers, publi
 
 ## ✨ Main Features
 * Create custom, web-based quizzes.
-* Edit existing quiz drafts to add, modify, or delete questions.
+* Edit existing quizzes to add or modify questions.
 * Specify the correct answer and logic for each question.
 * Securely share quizzes with other users and allow them to submit answers.
-* Calculate the overall score and basic statistcs for each quiz such as calculating the average, highest, lowest score and number of attempts.
+* Calculate the overall score and basic statistics (number of attempts, average, highest, lowest, and pass rate) for a specific quiz. Advanced analytics is out of scope.
 
 ## ⚙️ Core Engineering Challenges
 * **Dynamic Question Rendering:** Automatically loads questions based on the configuration or display preferences set by the creator.
 * **Real-Time Scoring:** Calculates and displays the user's score instantly at the end of the quiz.
 * **Customizable Quiz Banks:** Easily add new questions, hints, and answers during or after creation.
 * **Responsive Design:** Works smoothly on both desktop and mobile browsers.
-* **Role Management:** Quiz Creators can only access, modify, or delete the quizzes they created. Quiz Takers can only answer quizzes they have been explicitly granted access to.
+* **Role Management:** Quiz Creators can only access, modify, or delete the quizzes they created. Quiz Takers can only answer quizzes they have received an invitation link to.
 
 ## 🛠️ Tech Stack
 * **Frontend:** HTML, Bootstrap, React
@@ -32,6 +32,7 @@ The easiest way to see how this works is to launch the app instantly using Docke
 2. Open your terminal, navigate to the folder containing the file, and run:
    ```bash
    docker-compose up
+   ```
 3. Docker will automatically download the correct version of MySQL, initialize the database schema, install the Java dependencies, and launch the application.
 
 💡 How to Tweak This Project for Your Own Uses
@@ -45,4 +46,3 @@ The UI is not entirely complete. I am currently working on polishing the remaini
 
 ☕ Like this project?
 If you find this project helpful and are feeling generous,  [buy me a coffee!](https://buymeacoffee.com/zeinab.ibrahim?new=1) 
-
