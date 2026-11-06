@@ -1,7 +1,7 @@
 # 🧠 Web Quiz Engine (Java, Spring & MySQL)
 
 ## This project is a lightweight, interactive web-based quiz engine that allows users to generate customized questions, logical puzzles, web quests, or online tests. 
-Users can create quiz templates, populate them with questions and answers, publish the quiz, and share it with others to take and view their final results.
+Quiz creators can start from our ready-to-use templates to create quizzes, populate them with questions and answers, publish the quiz, and share it with others to take and view their final results.
 
 ## ✨ Main Features
 * Create custom, web-based quizzes.
