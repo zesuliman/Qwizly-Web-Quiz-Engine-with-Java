@@ -35,11 +35,11 @@ To empower educators, trainers, marketers, and community organizers to turn thei
 
 ### 1.5 Scope
 
-**In scope:** quiz creation and editing, quiz templates, quiz resource upload, AI question generation, responding to quizzes (ordinary and live), distribution of the quiz link by email and WhatsApp, scoring and per-quiz results summary, role-based access control, cloud deployment.
+**In scope:** quiz creation and draft editing, quiz templates, quiz resource upload, AI question generation, responding to quizzes (self-paced and live), distribution of the quiz link by email and WhatsApp, scoring and per-quiz results summary, role-based access control, cloud deployment.
 
-**Out of scope (this version):** advanced analytics (for example question difficulty indices, discrimination scores, cohort comparisons, trend dashboards), payments, a native mobile app, SMS invitations, answering quizzes inside WhatsApp (WhatsApp only delivers the quiz link), and proctoring.
+**Out of scope:** advanced analytics (for example question difficulty indices, discrimination scores, trend dashboards), payments, a native mobile app, SMS invitations, answering quizzes inside WhatsApp (WhatsApp only delivers the quiz link), and proctoring.
 
-**Boundary note:** the README now refers to basic statistics only. This SRS treats basic results (score, pass/fail, average, highest, lowest, number of attempts) as in scope, and everything beyond that as analytics, which is out of scope.
+**Boundary note:** the README now refers to basic statistics only. This system treats basic results (score, pass/fail, average, highest, lowest, number of attempts) as in scope, and everything beyond that as analytics, which is out of scope.
 
 ### 1.6 Definitions and Abbreviations
 
@@ -53,16 +53,11 @@ To empower educators, trainers, marketers, and community organizers to turn thei
 | Attempt | One respondent's single run through a quiz. |
 | Self-paced mode | Respondents take the quiz on their own, at any time within its availability window (for example, as part of a marketing campaign). |
 | Live mode | Host-paced quiz where questions are released in real time to all connected respondents. |
-| Source | Material uploaded or linked by a creator for AI question generation. |
-| SRS | Software Requirements Specification. |
-| RBAC | Role-Based Access Control. |
-| LLM | Large Language Model. |
-| RPO / RTO | Recovery Point / Recovery Time Objective. |
+| Information Source | Material uploaded or linked by a creator for AI question generation. |
 
 ### 1.7 References
 
 - Project README (features, tech stack, high-level system design diagram)
-- Docker and Docker Compose documentation
 - WhatsApp Business Platform documentation
 - OWASP Application Security Verification Standard (for security requirements)
 
@@ -72,7 +67,7 @@ To empower educators, trainers, marketers, and community organizers to turn thei
 
 ### 2.1 Domain Problem
 
-Teachers, trainers, community organizers, and event hosts need to assess knowledge or run engaging question sessions, but building quizzes by hand is slow, existing tools are heavy or costly, and distributing them to respondents (especially through messaging apps) is clumsy. Qwizly reduces the effort by generating questions from the creator's own material, offering ready templates, and delivering quizzes through a shareable link or WhatsApp, while keeping quiz content private to its owner.
+Teachers, trainers, community organizers, and event hosts need to assess knowledge or run engaging question sessions, but building quizzes by hand is slow, existing tools are heavy or costly, and distributing them to respondents is clumsy. Qwizly reduces the effort by generating questions from the creator's own material, offering ready templates, and delivering quizzes using a shareable link through email or WhatsApp.
 
 ### 2.2 Product Perspective
 
@@ -93,7 +88,7 @@ Web-based, accessed through standard modern browsers on desktop and mobile (resp
 
 ### 2.5 Constraints
 
-- C1: Distribution of the quiz link through WhatsApp is subject to WhatsApp Business Platform rules (approved message templates, recipient opt-in, and rate limits).
+- C1: Distribution of the quiz link through WhatsApp is subject to WhatsApp Business Platform rules.
 - C2: AI generation depends on a third-party LLM API and is subject to its cost, latency, and quotas.
 
 ### 2.6 Assumptions and Dependencies
@@ -104,7 +99,6 @@ Web-based, accessed through standard modern browsers on desktop and mobile (resp
 - A4: A WhatsApp Business account and approved message templates will be available.
 - A5: An LLM API key and budget will be available.
 - A6: Expected load is up to 1,000 simultaneous respondents (NFR-9).
-
 ---
 
 ## 3. Functional Requirements
@@ -132,27 +126,26 @@ Priority: **M** = must have, **S** = should have, **C** = could have.
 | FR-10 | A creator shall be able to start a quiz from a ready-to-use template. | M |
 | FR-11 | A quiz shall have a lifecycle: Draft, Published, Closed, Archived. Only Published quizzes can be taken. | M |
 | FR-12 | A Published quiz shall not be editable. To change it, the creator shall duplicate it into a new Draft (FR-13). | M |
-| FR-13 | A creator shall be able to duplicate a quiz into a new Draft, which is how changes to a Published quiz are made. | M |
-| FR-14 | A creator shall be able to delete a quiz; deletion shall require confirmation and handle existing attempts per BR-8. | M |
-| FR-15 | A creator shall be able to preview a quiz exactly as a respondent sees it. | S |
+| FR-13 | A creator shall be able to delete a quiz; deletion shall require confirmation and handle existing attempts according to BR-8. | M |
+| FR-14 | A creator shall be able to preview a quiz exactly as a respondent sees it. | S |
 
 ### 3.3 Questions and Answers
 
 | ID | Requirement | Priority |
 | --- | --- | --- |
-| FR-16 | The system shall support single-choice, multiple-choice, and true/false questions. | M |
-| FR-17 | The system shall support short-text answers with matching that ignores capitalization and extra spaces, so Paris and paris both count as correct. | S |
-| FR-18 | For each question, the creator shall specify the correct answer(s), points, and optional explanation. | M |
-| FR-19 | A creator shall be able to add optional hints to questions (README: hints). | S |
-| FR-20 | A creator shall be able to attach an image to a question. | C |
-| FR-21 | A creator shall be able to keep reusable questions in a question bank and add them to quizzes. | C |
+| FR-15 | The system shall support single-choice, multiple-choice, and true/false questions. | M |
+| FR-16 | The system shall support short-text answers with matching that ignores capitalization and extra spaces, so Paris and paris both count as correct. | S |
+| FR-17 | For each question, the creator shall specify the correct answer(s), points, and optional explanation. | M |
+| FR-18 | A creator shall be able to add optional hints to questions. | S |
+| FR-19 | A creator shall be able to attach an image to a question. | C |
+| FR-20 | A creator shall be able to keep reusable questions in a question bank and add them to quizzes. | C |
 | FR-22 | The system shall allow randomizing question order and answer order per attempt, as configured by the creator. | S |
 
-### 3.4 Sources and AI Generation
+### 3.4 Information Sources and AI Generation
 
 | ID | Requirement | Priority |
 | --- | --- | --- |
-| FR-23 | A creator shall be able to upload resources (PDF, DOCX, TXT) or paste text/links as sources for a quiz. | M |
+| FR-23 | A creator shall be able to upload information resources (PDF, DOCX, TXT) or paste text/links as sources for a quiz. | M |
 | FR-24 | The system shall validate uploads by type and size and reject unsafe files. | M |
 | FR-25 | A creator shall be able to request AI generation of questions and answers from selected sources, specifying number of questions, question types, and difficulty. | M |
 | FR-26 | Generated questions shall be saved as drafts that the creator can review, edit, accept, or reject before they enter the quiz. | M |
@@ -176,19 +169,18 @@ Priority: **M** = must have, **S** = should have, **C** = could have.
 | FR-34 | The system shall generate a unique, unguessable shareable link for each published quiz. | M |
 | FR-35 | A creator shall be able to restrict a quiz to invited respondents only, identified by email address or WhatsApp number (planned for a later version; for now quizzes use an open shared link). | C |
 | FR-36 | A creator shall be able to disable a quiz's shared link at any time, so that no new respondent can start it. | M |
-| FR-37 | A creator shall be able to send the quiz link through WhatsApp to a list of WhatsApp numbers. The message contains only the link; the quiz itself is always taken in the web application. | S |
-| FR-38 | The system shall deliver quizzes through a link only: the WhatsApp message carries the quiz link, and the quiz is always taken in the web application. Answering inside WhatsApp is not supported. | S |
-| FR-39 | Links shall support an optional expiry date and maximum number of uses. | S |
+| FR-37 | A creator shall be able to send the quiz link through WhatsApp to a group of contacts. The WhatsApp message contains only the link; the quiz itself is always taken in the web application. Answering inside WhatsApp is not supported. | S |
+| FR-39 | Quiz Links shall support an optional expiry date and maximum number of uses. | S |
 
 ### 3.7 Taking a Quiz (Self-Paced Mode)
 
 | ID | Requirement | Priority |
 | --- | --- | --- |
 | FR-40 | The system shall render questions dynamically according to the quiz configuration (order, randomization, display preferences). | M |
-| FR-41 | The system shall enforce the time limit on the server; client timers are informational only. | M |
-| FR-42 | The system shall autosave answers and allow resuming an unfinished attempt within the time limit. | S |
+| FR-41 | The system shall enforce a time limit on the server if a time limit is configured in the quiz by the creator; client timers are informational only. | M |
+| FR-42 | The system shall autosave answers and allow resuming an unfinished attempt within the time limit if exist. | S |
 | FR-43 | The system shall prevent duplicate submissions and enforce attempt limits. | M |
-| FR-44 | The system shall auto-submit an attempt when its time expires. | M |
+| FR-44 | The system shall auto-submit an attempt when its time limit expires, if configured. | M |
 
 ### 3.8 Live Mode
 
@@ -196,8 +188,8 @@ Priority: **M** = must have, **S** = should have, **C** = could have.
 | --- | --- | --- |
 | FR-45 | A creator (host) shall be able to start a live session, producing a join code or link. | M |
 | FR-46 | Respondents shall join a live session lobby; the host sees who has joined. | M |
-| FR-47 | The host shall control question release; all respondents see each question at the same time with a server-enforced countdown. | M |
-| FR-48 | The system shall show live results after each question, including a leaderboard. | S |
+| FR-47 | The host shall control questions' release; all respondents see the questions at the same time with a server-enforced countdown. | M |
+| FR-48 | The system shall show live results after quiz submission, including a leaderboard. | S |
 | FR-49 | The system shall support at least 1,000 simultaneous respondents in one live session (NFR-9). | M |
 | FR-50 | A respondent who disconnects shall be able to rejoin the session and continue from the current question. | S |
 
@@ -228,7 +220,7 @@ Priority: **M** = must have, **S** = should have, **C** = could have.
 | FR-61 | A respondent shall not need an account: to start a quiz opened through its shared link, they enter an email address or a WhatsApp number. | M |
 | FR-62 | The system shall send a 6-digit one-time code to the entered email address. | M |
 | FR-63 | The system shall also be able to send the one-time code to the entered WhatsApp number (authentication message template) when the System Admin enables WhatsApp. SMS is not used. | S |
-| FR-64 | A code shall be valid for 10 minutes, usable once, stored only as a hash, and locked after 5 wrong entries; requests for new codes shall be rate-limited (proposed default: 3 per 15 minutes per contact and per IP address). | M |
+| FR-64 | A code shall be valid for 5 minutes, usable once, stored only as a hash, and locked after 5 wrong entries; requests for new codes shall be rate-limited (proposed default: 3 per 15 minutes per contact and per IP address). | M |
 | FR-65 | After verification the system shall issue a short-lived session limited to that quiz, and attempt limits (FR-43) shall be counted per verified email address or WhatsApp number. | M |
 
 ---
@@ -239,14 +231,14 @@ Priority: **M** = must have, **S** = should have, **C** = could have.
 | --- | --- | --- |
 | NFR-1 | Usability | Quiz creators shall be able to create a quiz easily (a first quiz from a template in under 5 minutes without training), and respondents shall be able to answer a quiz without difficulty. |
 | NFR-2 | Accessibility | The system shall be accessible online for creators at all times and for respondents during the lifetime of the quiz. The UI shall follow WCAG 2.1 AA where practical (keyboard navigation, contrast, labels). |
-| NFR-3 | Security | Respondents shall verify their identity with a one-time code sent to their email address or WhatsApp number before starting a quiz; they do not need an account. Passwords shall be hashed (bcrypt or stronger), all traffic shall use HTTPS, and the system shall be protected against OWASP Top 10 risks. |
+| NFR-3 | Security | Respondents shall verify their identity with a one-time code sent to their email address or WhatsApp number before starting a quiz; they do not need an account. Creators' Passwords shall be hashed (bcrypt or stronger), all traffic shall use HTTPS, and the system shall be protected against OWASP Top 10 risks. |
 | NFR-4 | Privacy | No user can access management data or results of quizzes they did not create, and respondents can see only their own results. Personal data (email address, WhatsApp number) shall be collected only as needed and deletable on request. |
 | NFR-5 | Responsive design | The UI shall work smoothly on desktop and mobile browsers. |
-| NFR-6 | Performance | Typical page loads shall complete in under 3 seconds and request processing in under 2 seconds at expected load. |
-| NFR-7 | Scalability | The backend shall be stateless so it can be scaled horizontally; shared state (live sessions, timers) shall be kept outside application memory if more than one instance is deployed. |
+| NFR-6 | Performance | Typical page loads shall complete in under 3 seconds and request processing in under 3 seconds at expected load. |
+| NFR-7 | Scalability | The backend shall be stateless so it can be scaled horizontally; shared state (live sessions, timers) shall be kept outside application memory since more than one instance is deployed. |
 | NFR-8 | Availability | The system shall be available during business hours with a target of 99.5%. |
 | NFR-9 | Reliability and integrity | The system shall support online real-time access of 1,000 simultaneous quiz takers. The system shall process the quiz answers and send the status once quiz time has ended. No submitted answer shall be lost or counted twice. |
-| NFR-10 | Maintainability | The system shall be built as a modular monolith (one deployable application with clearly separated modules), covered by automated tests (target 70% line coverage on services), documented through OpenAPI, and built and tested in CI. Database changes shall be managed by versioned migrations. |
+| NFR-10 | Maintainability | The system shall be built as a modular monolith (one deployable application with clearly separated modules), covered by automated tests, documented through OpenAPI, and built and tested in CI. Database changes shall be managed by versioned migrations. |
 | NFR-11 | Deployment | The system shall run on AWS using Docker containers, with a Docker Compose setup for local development. |
 | NFR-12 | Localization | Date and time handling shall respect users' different time zones (store UTC, display in user zone); the UI shall support multiple languages, including right-to-left languages. |
 | NFR-13 | Observability | The system shall provide application and error logging and health monitoring (health endpoint and basic metrics). |
@@ -264,7 +256,7 @@ Priority: **M** = must have, **S** = should have, **C** = could have.
 | BR-2 | A respondent can answer a quiz only through its valid shared link, after verifying with a one-time code, while the quiz is Published and inside its availability window. |
 | BR-3 | An attempt is scored only on the server, never trusted from the client. |
 | BR-4 | A respondent cannot exceed the quiz's attempt limit; a submitted attempt cannot be modified. |
-| BR-5 | Correct answers are never sent to the respondent's browser before the attempt is submitted (unless the creator enabled that). |
+| BR-5 | Correct answers are never sent to the respondent's browser before the attempt is submitted. |
 | BR-6 | AI-generated questions are drafts until a creator accepts them. |
 | BR-7 | Score = sum of points of correctly answered questions; partial credit rules for multiple-choice are configurable (all-or-nothing by default). |
 | BR-8 | Deleting a quiz soft-deletes it; attempt data is retained or anonymized according to the retention policy. |
@@ -348,8 +340,8 @@ Responsive React/Bootstrap UI with pages for authentication, quiz dashboard, qui
 4. **AI generation:** Given an uploaded PDF, when the creator requests 10 questions, then 10 draft questions appear for review and none enter the quiz until accepted.
 5. **Server-enforced timer:** Given a 10-minute limit, when the client timer is altered or the connection drops, then the attempt is still auto-submitted at 10 minutes on the server.
 6. **No duplicate submission:** Given 20 parallel submit requests for the same attempt, then exactly one submission is stored and all responses return the same result.
-7. **Instant score:** When a respondent submits, then the score appears within 2 seconds.
-8. **Live mode capacity:** Given 1,000 simultaneous respondents in one live session, then each question reaches all of them within 2 seconds and the leaderboard stays correct.
+7. **Instant score:** When a respondent submits, then the score appears within 3 seconds.
+8. **Live mode capacity:** Given 1,000 simultaneous respondents in one live session, then each question reaches all of them within 3 seconds and the leaderboard stays correct.
 9. **Results summary:** Given 10 submitted attempts, then the creator sees attempt count, average, highest, lowest, and pass rate matching the stored data.
 10. **Time zones:** Given a quiz scheduled in the creator's time zone, then respondents in other zones see the correct local start and end times.
 
@@ -366,60 +358,23 @@ Responsive React/Bootstrap UI with pages for authentication, quiz dashboard, qui
 | R5 | Live mode load or WebSocket instability with 1,000 users. | Medium | High | Load tests, reconnect handling, shared state store across instances. |
 | R6 | Unsafe uploaded files or prompt injection through sources. | Medium | High | File validation, scanning, sandboxed processing, treat source text as untrusted input to the LLM. |
 | R7 | Leakage of correct answers or quiz data. | Low | High | Never send answers early; RBAC tests; audit log. |
-| R8 | Scope creep (analytics, many question types). | High | Medium | Keep analytics out of scope; prioritize M requirements. |
-| R9 | Single-developer capacity and unfinished UI. | High | Medium | Phase delivery (see 11); finish UI before new features. |
+
 
 ---
 
 ## 11. Current Implementation Status
 
-Based on the README. Items not mentioned in the README are assumed not started and should be confirmed.
 
 | Area | Status |
 | --- | --- |
-| Quiz creation and editing, questions and correct answers | Implemented (per README); must be changed so Published quizzes can no longer be edited |
-| Sharing quizzes with users and answering | Implemented (per README) |
-| Score and statistics calculation | Implemented (per README); needs alignment with the basic-results scope in 1.5 |
-| Role management (creator and taker access rules) | Implemented (per README) |
-| Docker Compose deployment, MySQL, Spring Security | Implemented (per README) |
-| Responsive UI | Partially implemented; some pages unfinished |
+| Quiz creation and editing, questions and correct answers | Implemented |
+| Sharing quizzes with users and answering | Implemented |
+| Score and statistics calculation | Implemented |
+| Role management (creator and taker access rules) | Implemented |
+| Docker Compose deployment, MySQL, Spring Security | Implemented |
+| Responsive UI | Partially implemented |
 | Templates, source upload, AI generation | Not started |
 | Live mode | Not started |
 | WhatsApp distribution | Not started |
 | Time zone and multi-language support | Not started |
 | AWS deployment, CI/CD, monitoring | Not started |
-
-**Suggested delivery phases**
-
-1. **Phase 1 (Foundation):** finish UI, harden security and data integrity (migrations, constraints, tests), server-enforced timing.
-2. **Phase 2 (Differentiators):** templates, source upload, AI generation with review.
-3. **Phase 3 (Reach):** shared-link hardening, one-time-code respondent verification, email notifications, WhatsApp distribution.
-4. **Phase 4 (Live):** live mode with WebSockets and leaderboard.
-5. **Phase 5 (Production):** AWS deployment, CI/CD, monitoring, localization.
-
----
-
-## Appendix A: Review Findings and Open Questions
-
-**Issues found in the preliminary SRS (now addressed in this version)**
-
-- Section 3 contained a pasted list of engineering ideas instead of requirements; it was replaced with numbered, prioritized, testable functional requirements.
-- Sections 2.1, 2.2, 2.5, 2.6, 5, 8, 9, 10, 11 and the actor descriptions were empty and have been completed.
-- Section numbering skipped 6 and 7, and NFR numbering skipped NFR-5 and NFR-7 (also NFR-11 was empty); these were filled.
-- Typos corrected ("respondenets", "quizes", "simultanesouly", etc.).
-- Several README features were missing from the SRS (role management, hints, responsive design, real-time scoring, Docker deployment) and several SRS features were missing from the README (AI generation, live mode, WhatsApp, AWS, localization); both are now consolidated.
-
-**Conflicts and decisions to confirm**
-
-1. **Analytics vs statistics:** analytics is out of scope, but the README promises statistics. resolved: basic results summary in, advanced analytics out; the README now refers to basic statistics.
-2. **Respondent authentication:** resolved: respondents open the shared link and verify with a one-time code sent to their email address or WhatsApp number; they need no account (FR-61 to FR-65).
-3. **WhatsApp scope:** resolved: WhatsApp only delivers the quiz link, and respondents always take the quiz in the web application (FR-37, FR-38).
-4. **Live mode scoring:** should faster answers earn more points (Kahoot-style)? Not specified; default is fixed points per question.
-5. **Languages:** which languages beyond English (for example Arabic, which requires right-to-left layout)?
-6. **Retention:** how long should attempts, sources, and personal data be kept?
-7. **Anonymous respondents:** resolved: no, every respondent is identified by a verified email address or WhatsApp number.
-8. **AWS services:** target architecture (for example ECS or EC2, RDS for MySQL, S3, SES) to be decided, as it affects cost and NFR-8.
-
-**Changes in version 1.2:** vision reworded; ordinary mode renamed self-paced mode; technology constraints removed (technology is described in section 7); expected load raised to 1,000 simultaneous respondents (NFR-9, FR-49, scaling note); published quizzes can no longer be edited (FR-12, FR-13, BR-11), which narrows the README feature of editing existing quizzes to drafts; email and WhatsApp are the only invitation channels and WhatsApp delivers only the quiz link (FR-35, FR-37, FR-38); short-text matching wording clarified (FR-17).
-
-**Changes in version 1.3:** respondents verify with a one-time code sent by email (WhatsApp optional) and need no account (NFR-3, FR-61 to FR-65); quizzes are shared through an open link for now, with invitation-only access and per-respondent revoking planned for later (FR-4, FR-35, FR-36, BR-2); the backup and recovery requirement was removed, so later NFR numbers shifted down by one; the architecture is a modular monolith (NFR-10, section 7); the README now refers to basic statistics.
