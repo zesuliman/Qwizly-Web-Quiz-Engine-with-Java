@@ -20,19 +20,24 @@ Items marked **(Planned)** are not implemented yet.
 * **Link-Based Distribution (Planned):** Creators share a quiz through a link that they can send by email or WhatsApp. WhatsApp only delivers the link; the quiz is always taken in the web app.
 * **Quiz Taker Verification (Planned):** Takers verify themselves with a one-time code sent to their email or WhatsApp number, with no account needed.
 * **Concurrency and Integrity (Planned):** Server-enforced timers, attempt limits, and protection against duplicate submissions.
-* **Scalability (Planned):** Designed to support 1,000 simultaneous quiz takers.
+* **Scalability (Planned):** Designed to support 1,000 simultaneous quiz takers in one live session.
 * **Responsive Design:** Works smoothly on both desktop and mobile browsers.
-* **Role Management:** Quiz creators can only access, modify, or delete the quizzes they created. Quiz takers can only answer quizzes they have received an invitation link to.
+* **Role Management:** Quiz creators can only access, modify, or delete the quizzes they created. Quiz takers can only answer a quiz through its shared link.
 
 ## 🛠️ Tech Stack
 * **Frontend:** HTML, Bootstrap, React
-* **Backend:** Java, Spring Boot, Spring Security, built as a modular monolith (REST API; WebSocket for live mode is planned)
+* **Backend:** Java, Spring Boot, Spring Security, built as a modular monolith organized in Domain-Driven Design layers (REST API; WebSocket for live mode is planned)
 * **Database:** MySQL
-* **Caching and live state:** Redis (planned, for live sessions across multiple instances)
+* **Caching and live state:** Redis (planned): shared live-session state, caching, rate limiting, and message fan-out across instances
 * **AI:** Third-party LLM API for question generation (planned)
 * **Messaging:** Email and WhatsApp Business Platform for sending quiz links and one-time codes (planned)
 * **File storage:** AWS S3 for uploaded sources (planned)
 * **Deployment:** Docker and Docker Compose locally; AWS in production (planned)
+
+## 🏗️ Architecture
+Qwizly's target architecture is a **modular monolith**: one deployable Spring Boot application split into modules with clear responsibilities (accounts, quiz management, AI generation, distribution, respondent verification, attempts and scoring, live sessions, results and notifications, and administration). Each module is a bounded context that follows Domain-Driven Design layering (`contract`, `interfaces`, `application`, `domain`, `infrastructure`). MySQL is the source of truth, and Redis will hold shared live-session state.
+
+For the full requirements, module boundaries, and design decisions, see the [Software Requirements Specification](docs/SRS.md).
 
 ## 🚀 Getting Started
 
