@@ -10,7 +10,6 @@ Qwizly is a lightweight, interactive web-based quiz engine for creating customiz
 * View the overall score and basic statistics for a quiz (number of attempts, average, highest, lowest, and pass rate). Advanced analytics is out of scope.
 
 ## ⚙️ Core Engineering Challenges
-Items marked **(Planned)** are not implemented yet.
 
 * **Dynamic Question Rendering:** Quiz takers see questions displayed according to the settings the creator configured, such as question order, randomization of questions and answers, and display preferences. Correct answers are never sent to the taker's browser before submission.
 * **Real-Time Scoring:** Every attempt is scored on the server, and the taker's score is displayed instantly at the end of the quiz.
@@ -20,7 +19,7 @@ Items marked **(Planned)** are not implemented yet.
 * **Link-Based Distribution (Planned):** Creators share a quiz through a link that they can send by email or WhatsApp. WhatsApp only delivers the link; the quiz is always taken in the web app.
 * **Quiz Taker Verification (Planned):** Takers verify themselves with a one-time code sent to their email or WhatsApp number, with no account needed.
 * **Concurrency and Integrity (Planned):** Server-enforced timers, attempt limits, and protection against duplicate submissions.
-* **Scalability (Planned):** Designed to support 1,000 simultaneous quiz takers in one live session.
+* **Scalability:** Designed to support 1,000 simultaneous quiz takers in one live session.
 * **Responsive Design:** Works smoothly on both desktop and mobile browsers.
 * **Role Management:** Quiz creators can only access, modify, or delete the quizzes they created. Quiz takers can only answer a quiz through its shared link.
 
