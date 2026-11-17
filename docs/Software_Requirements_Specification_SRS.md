@@ -70,7 +70,7 @@ To empower educators, trainers, marketers, and community organizers to turn thei
 
 **Basic statistics boundary:** Basic statistics are limited to the number of submitted attempts, average score, highest score, lowest score, pass rate, and a list of submitted attempts. These are the statistics specified in FR-86. More advanced analytics are out of scope.
 
-### 1.6 Definitions and Abbreviations
+### 1.6 Terminology and Abbreviations
 
 | Term | Definition |
 |---|---|
@@ -225,7 +225,7 @@ Qwizly is a web application accessed through modern desktop and mobile browsers.
 - **C4:** The server shall act as the authoritative source to determine and enforce deadlines, calculate scores, manage attempt states, and control access. The browser shall be restricted to collecting user input and rendering server-provided state and shall not make binding decisions regarding validation, timing, or scoring.
 - **C5:** Uploaded source files are temporary inputs for AI generation and are not retained after generation completes.
 
-### 2.6 Assumptions and Dependencies
+### 2.6 Assumptions
 
 - **A1:** Users have a supported modern browser and internet access.
 - **A2:** Quiz Creators have the right to use the information sources they provide.
