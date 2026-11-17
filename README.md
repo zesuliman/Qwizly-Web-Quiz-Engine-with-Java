@@ -36,7 +36,7 @@ Qwizly is a lightweight, interactive web-based quiz engine for creating customiz
 ## 🏗️ Architecture
 Qwizly's target architecture is a **modular monolith**: one deployable Spring Boot application split into modules with clear responsibilities (accounts, quiz management, AI generation, distribution, respondent verification, attempts and scoring, live sessions, results and notifications, and administration). Each module is a bounded context that follows Domain-Driven Design layering (`contract`, `interfaces`, `application`, `domain`, `infrastructure`). MySQL is the source of truth, and Redis will hold shared live-session state.
 
-For the full requirements, module boundaries, and design decisions, see the [Software Requirements Specification](docs/SRS.md).
+For the full requirements, module boundaries, and design decisions, see the [Software Requirements Specification](docs/Software_Requirements_Specification_SRS.md).
 
 ## 🚀 Getting Started
 
